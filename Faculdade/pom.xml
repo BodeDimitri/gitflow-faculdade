@@ -7,11 +7,11 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.exemplo</groupId>
-    <artifactId>meu-app</artifactId>
+    <artifactId>faculdade</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <packaging>jar</packaging>
 
-    <name>meu-app</name>
+    <name>faculdade</name>
     <description>Projeto Spring Boot Exemplo</description>
 
     <properties>
@@ -26,7 +26,7 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
 
-   <dependencies>
+<dependencies>
     <!-- Web Starter para criar aplicativos web com Spring Boot -->
     <dependency>
         <groupId>org.springframework.boot</groupId>
@@ -54,11 +54,11 @@
     </dependency>
 
     <!-- Dependência de Bean Validation (javax.validation) -->
-         <dependency>
-             <groupId>javax.validation</groupId>
-             <artifactId>javax.validation-api</artifactId>
-             <version>2.0.2.Final</version>
-         </dependency>
+    <dependency>
+        <groupId>javax.validation</groupId>
+        <artifactId>javax.validation-api</artifactId>
+        <version>2.0.2.Final</version>
+    </dependency>
 
     <!-- Hibernate Validator (implementação de Bean Validation) -->
     <dependency>
@@ -75,10 +75,17 @@
     </dependency>
 </dependencies>
 
+<repositories>
+    <repository>
+        <id>jcenter</id>
+        <url>https://jcenter.bintray.com</url>
+    </repository>
+</repositories>
+
+
 
     <build>
         <plugins>
-            <!-- Plugin para empacotar a aplicação como um JAR executável -->
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
