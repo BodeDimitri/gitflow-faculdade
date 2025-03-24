@@ -1,0 +1,22 @@
+services:
+  server:
+    build:
+      context: .
+    ports:
+      - 8080:8080
+    depends_on:
+      - db
+    environment:
+      - MYSQL_URL=jdbc:mysql://db:3306/
+
+  db:
+    image: postgres
+    restart: always
+    volumes:
+      - db-data:/var/lib/mysql/data
+    environment:
+#      - MYSQL_DB=
+#      - MYSQL_USER=
+#      - MYSQL_PASSWORD=
+    ports:
+      - 3306:3306

@@ -1,0 +1,135 @@
+{
+    "info": {
+        "name": "Traffic Management API v2",
+        "_postman_id": "abcdef12-3456-7890-abcd-ef1234567890",
+        "description": "Cole\u00e7\u00e3o de endpoints da API de Gerenciamento de Incidentes de Tr\u00e1fego.",
+        "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+    },
+    "item": [
+        {
+            "name": "Listar todos os incidentes de tr\u00e1fego",
+            "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                    "raw": "http://localhost:8080/traffic-incidents",
+                    "protocol": "http",
+                    "host": [
+                        "localhost"
+                    ],
+                    "port": "8080",
+                    "path": [
+                        "traffic-incidents"
+                    ]
+                }
+            }
+        },
+        {
+            "name": "Criar novo incidente de tr\u00e1fego",
+            "request": {
+                "method": "POST",
+                "header": [
+                    {
+                        "key": "Content-Type",
+                        "name": "Content-Type",
+                        "value": "application/json",
+                        "type": "text"
+                    }
+                ],
+                "body": {
+                    "mode": "raw",
+                    "raw": "{\"incidentType\": \"Acidente\", \"severity\": 5, \"description\": \"Batida leve\", \"location\": \"Rua A\"}",
+                    "options": {
+                        "raw": {
+                            "language": "json"
+                        }
+                    }
+                },
+                "url": {
+                    "raw": "http://localhost:8080/traffic-incidents",
+                    "protocol": "http",
+                    "host": [
+                        "localhost"
+                    ],
+                    "port": "8080",
+                    "path": [
+                        "traffic-incidents"
+                    ]
+                }
+            }
+        },
+        {
+            "name": "Obter incidente por ID",
+            "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                    "raw": "http://localhost:8080/traffic-incidents/1",
+                    "protocol": "http",
+                    "host": [
+                        "localhost"
+                    ],
+                    "port": "8080",
+                    "path": [
+                        "traffic-incidents",
+                        "1"
+                    ]
+                }
+            }
+        },
+        {
+            "name": "Atualizar incidente de tr\u00e1fego",
+            "request": {
+                "method": "PUT",
+                "header": [
+                    {
+                        "key": "Content-Type",
+                        "name": "Content-Type",
+                        "value": "application/json",
+                        "type": "text"
+                    }
+                ],
+                "body": {
+                    "mode": "raw",
+                    "raw": "{\"incidentType\": \"Acidente Atualizado\", \"severity\": 3, \"description\": \"Batida corrigida\", \"location\": \"Rua B\"}",
+                    "options": {
+                        "raw": {
+                            "language": "json"
+                        }
+                    }
+                },
+                "url": {
+                    "raw": "http://localhost:8080/traffic-incidents/1",
+                    "protocol": "http",
+                    "host": [
+                        "localhost"
+                    ],
+                    "port": "8080",
+                    "path": [
+                        "traffic-incidents",
+                        "1"
+                    ]
+                }
+            }
+        },
+        {
+            "name": "Deletar incidente de tr\u00e1fego",
+            "request": {
+                "method": "DELETE",
+                "header": [],
+                "url": {
+                    "raw": "http://localhost:8080/traffic-incidents/1",
+                    "protocol": "http",
+                    "host": [
+                        "localhost"
+                    ],
+                    "port": "8080",
+                    "path": [
+                        "traffic-incidents",
+                        "1"
+                    ]
+                }
+            }
+        }
+    ]
+}
