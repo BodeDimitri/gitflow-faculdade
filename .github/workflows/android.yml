@@ -36,8 +36,10 @@ jobs:
       - name: Armazenar JAR como Artefato
         uses: actions/upload-artifact@v4
         with:
-          name: app-jar
-          path: target/*.jar
+              name: app-jar
+              path: target/*.jar
+              working-directory: Faculdade
+
 
   docker-build-push:
     needs: build
