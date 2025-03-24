@@ -1,0 +1,96 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches:
+      - main
+      - develop
+  pull_request:
+    branches:
+      - main
+      - develop
+
+env:
+  REGISTRY: docker.io
+  IMAGE_NAME: mydockerhubuser/my-java-app
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout código
+        uses: actions/checkout@v4
+
+      - name: Configurar Java e Maven
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: '21'
+          cache: maven
+
+      - name: Compilar e Empacotar com Maven
+        run: mvn clean package
+
+      - name: Armazenar JAR como Artefato
+        uses: actions/upload-artifact@v4
+        with:
+          name: app-jar
+          path: target/app.jar
+
+  docker-build-push:
+    needs: build
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout código
+        uses: actions/checkout@v4
+
+      - name: Baixar JAR do build
+        uses: actions/download-artifact@v4
+        with:
+          name: app-jar
+          path: target/
+
+
+      - name: Login no Docker Hub
+        run: echo "${{ secrets.DOCKER_PASS }}" | docker login -u "${{ secrets.DOCKER_USER }}" --password-stdin
+
+      - name: Build e Push da Imagem
+        run: |
+          TAG=$(echo $GITHUB_SHA | cut -c1-7)
+          docker build -t $REGISTRY/$IMAGE_NAME:$TAG .
+          docker tag $REGISTRY/$IMAGE_NAME:$TAG $REGISTRY/$IMAGE_NAME:latest
+          docker push $REGISTRY/$IMAGE_NAME:$TAG
+          docker push $REGISTRY/$IMAGE_NAME:latest
+
+  #Infelizmente tem que pagar para deixar imagem salva no Dockerhub
+  deploy-staging:
+    needs: docker-build-push
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/develop'
+
+    steps:
+      - name: Deploy no ambiente de Staging
+        run: |
+          ssh -o StrictHostKeyChecking=no ${{ secrets.STAGING_SSH }} << 'EOF'
+            docker pull $REGISTRY/$IMAGE_NAME:latest
+            docker stop my-java-app || true
+            docker rm my-java-app || true
+            docker run -d --name my-java-app -p 8080:8080 -e PROFILE=stg $REGISTRY/$IMAGE_NAME:latest
+          EOF
+
+  deploy-production:
+    needs: docker-build-push
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+
+    steps:
+      - name: Deploy no ambiente de Produção
+        run: |
+          ssh -o StrictHostKeyChecking=no ${{ secrets.PRODUCTION_SSH }} << 'EOF'
+            docker pull $REGISTRY/$IMAGE_NAME:latest
+            docker stop my-java-app || true
+            docker rm my-java-app || true
+            docker run -d --name my-java-app -p 8080:8080 -e PROFILE=prd $REGISTRY/$IMAGE_NAME:latest
+          EOF
