@@ -29,8 +29,9 @@ jobs:
           java-version: '21'
           cache: maven
 
-      - name: Compilar e Empacotar com Maven
+      - name: Build with Maven
         run: mvn clean package
+        working-directory: Faculdade
 
       - name: Armazenar JAR como Artefato
         uses: actions/upload-artifact@v4
