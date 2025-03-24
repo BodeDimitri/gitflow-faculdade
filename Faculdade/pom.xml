@@ -53,11 +53,11 @@
         <version>2.2</version>
     </dependency>
 
-    <!-- Dependência de Bean Validation (javax.validation) -->
+    <!-- Dependência de Bean Validation (jakarta.validation) -->
     <dependency>
-        <groupId>javax.validation</groupId>
-        <artifactId>javax.validation-api</artifactId>
-        <version>2.0.2.Final</version>
+        <groupId>jakarta.validation</groupId>
+        <artifactId>jakarta.validation-api</artifactId>
+        <version>3.0.0</version>
     </dependency>
 
     <!-- Hibernate Validator (implementação de Bean Validation) -->
