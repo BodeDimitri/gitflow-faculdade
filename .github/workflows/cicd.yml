@@ -12,8 +12,9 @@ on:
 
 env:
   REGISTRY: docker.io
-  IMAGE_NAME: bodedimitri/my-java-app 
-
+  IMAGE_NAME: bodedimitri/my-java-app
+  AZURE_WEBAPP_NAME_STAGING: web-app-stagging
+  AZURE_WEBAPP_NAME_PRODUCTION: web-app-prod
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -52,8 +53,8 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: app-jar
-          path: target/ # Changed path to 'target/'
-
+          path: target/
+          
       - name: List downloaded artifact
         run: ls -lh target/
 
@@ -71,29 +72,23 @@ jobs:
           docker push $REGISTRY/$IMAGE_NAME:latest
 
   deploy-staging:
-    needs: docker-build-push
     runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/develop'
+    needs: docker-build-push
     steps:
-      - name: Deploy to Staging
-        run: |
-          ssh -o StrictHostKeyChecking=no ${{ secrets.STAGING_SSH }} << EOF
-            docker pull $REGISTRY/$IMAGE_NAME:latest
-            docker stop my-java-app || true
-            docker rm my-java-app || true
-            docker run -d --name my-java-app -p 8080:8080 -e PROFILE=stg $REGISTRY/$IMAGE_NAME:latest
-          EOF
+      - name: Deploy to Azure Web App (Staging)
+        uses: azure/webapps-deploy@v2
+        with:
+          app-name: ${{ env.AZURE_WEBAPP_NAME_STAGING }}
+          publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE_STAGING }}
+          images: "${{ env.REGISTRY }}/${{ secrets.DOCKERHUB_USERNAME }}/${{ env.IMAGE_NAME }}:latest"
 
   deploy-production:
-    needs: docker-build-push
     runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/main'
+    needs: docker-build-push
     steps:
-      - name: Deploy to Production
-        run: |
-          ssh -o StrictHostKeyChecking=no ${{ secrets.PRODUCTION_SSH }} << EOF
-            docker pull $REGISTRY/$IMAGE_NAME:latest
-            docker stop my-java-app || true
-            docker rm my-java-app || true
-            docker run -d --name my-java-app -p 8080:8080 -e PROFILE=prd $REGISTRY/$IMAGE_NAME:latest
-          EOF
+      - name: Deploy to Azure Web App (Production)
+        uses: azure/webapps-deploy@v2
+        with:
+          app-name: ${{ env.AZURE_WEBAPP_NAME_PRODUCTION }}
+          publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE_PRODUCTION }}
+          images: "${{ env.REGISTRY }}/${{ secrets.DOCKERHUB_USERNAME }}/${{ env.IMAGE_NAME }}:latest"
