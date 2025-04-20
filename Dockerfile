@@ -5,7 +5,7 @@ WORKDIR /opt/app/Faculdade
 RUN mvn clean package
 FROM eclipse-temurin:21-jre-alpine
 RUN mkdir /opt/app
-COPY --from=build /opt/app/Faculdade/target/app.jar /opt/app/app.jar
+COPY --from=build /opt/app/Faculdade/target/faculdade-0.0.1-SNAPSHOT.jar /opt/app/app.jar
 WORKDIR /opt/app
 ENV PROFILE=prd
 EXPOSE 8080
