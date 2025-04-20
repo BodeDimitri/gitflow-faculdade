@@ -12,31 +12,30 @@ on:
 
 env:
   REGISTRY: docker.io
-  IMAGE_NAME: mydockerhubuser/my-java-app
+  IMAGE_NAME: mydockerhubuser/my-java-app #  Replace with your Docker Hub username and repository name
 
 jobs:
   build:
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout código
+      - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Configurar Java e Maven
-        uses: actions/setup-java@v3
+      - name: Set up JDK
+        uses: actions/setup-java@v4
         with:
-          distribution: 'temurin'
-          java-version: '21'
+          java-version: "21"
+          distribution: "temurin"
           cache: maven
 
-      - name: Build com Maven
+      - name: Build with Maven
         run: mvn clean package
         working-directory: Faculdade
 
-      - name: Verificar JAR gerado
+      - name: Verify JAR generation
         run: ls -lh Faculdade/target
 
-      - name: Armazenar JAR como Artefato
+      - name: Upload JAR artifact
         uses: actions/upload-artifact@v4
         with:
           name: app-jar
@@ -45,40 +44,40 @@ jobs:
   docker-build-push:
     needs: build
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout código
+      - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Baixar JAR do build
+      - name: Download JAR artifact
         uses: actions/download-artifact@v4
         with:
           name: app-jar
-          path: target/
+          path: target/ # Changed path to 'target/'
 
-      - name: Listar artefato baixado
+      - name: List downloaded artifact
         run: ls -lh target/
 
-      - name: Login no Docker Hub
+      - name: Login to Docker Hub
         run: echo "${{ secrets.DOCKER_PASS }}" | docker login -u "${{ secrets.DOCKER_USER }}" --password-stdin
 
-      - name: Build e Push da Imagem Docker
+      - name: Build and Push Docker image
         run: |
+          # Extract the JAR filename.  Crucial for robustness.
+          JAR_FILE=$(find target/ -name "*.jar" -printf "%f\n")
           TAG=$(echo $GITHUB_SHA | cut -c1-7)
-          docker build -t $REGISTRY/$IMAGE_NAME:$TAG .
-          docker tag $REGISTRY/$IMAGE_NAME:$TAG $REGISTRY/$IMAGE_NAME:latest
+          docker build -t $REGISTRY/$IMAGE_NAME:$TAG -f Dockerfile . # Corrected Dockerfile path
           docker push $REGISTRY/$IMAGE_NAME:$TAG
+          docker tag $REGISTRY/$IMAGE_NAME:$TAG $REGISTRY/$IMAGE_NAME:latest
           docker push $REGISTRY/$IMAGE_NAME:latest
 
   deploy-staging:
     needs: docker-build-push
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/develop'
-
     steps:
-      - name: Deploy no ambiente de Staging
+      - name: Deploy to Staging
         run: |
-          ssh -o StrictHostKeyChecking=no ${{ secrets.STAGING_SSH }} << 'EOF'
+          ssh -o StrictHostKeyChecking=no ${{ secrets.STAGING_SSH }} << EOF
             docker pull $REGISTRY/$IMAGE_NAME:latest
             docker stop my-java-app || true
             docker rm my-java-app || true
@@ -89,11 +88,10 @@ jobs:
     needs: docker-build-push
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/main'
-
     steps:
-      - name: Deploy no ambiente de Produção
+      - name: Deploy to Production
         run: |
-          ssh -o StrictHostKeyChecking=no ${{ secrets.PRODUCTION_SSH }} << 'EOF'
+          ssh -o StrictHostKeyChecking=no ${{ secrets.PRODUCTION_SSH }} << EOF
             docker pull $REGISTRY/$IMAGE_NAME:latest
             docker stop my-java-app || true
             docker rm my-java-app || true
