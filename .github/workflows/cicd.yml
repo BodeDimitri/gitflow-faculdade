@@ -12,7 +12,7 @@ on:
 
 env:
   REGISTRY: docker.io
-  IMAGE_NAME: mydockerhubuser/my-java-app #  Replace with your Docker Hub username and repository name
+  IMAGE_NAME: bodedimitri/my-java-app 
 
 jobs:
   build:
