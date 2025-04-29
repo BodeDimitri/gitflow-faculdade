@@ -15,6 +15,7 @@ env:
   IMAGE_NAME: bodedimitri/my-java-app
   AZURE_WEBAPP_NAME_STAGING: web-app-stagging
   AZURE_WEBAPP_NAME_PRODUCTION: web-app-prod
+  
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -29,8 +30,8 @@ jobs:
           distribution: "temurin"
           cache: maven
 
-      - name: Build with Maven
-        run: mvn clean package
+      - name: Build and Run Tests (Cucumber, API)
+        run: mvn clean verify
         working-directory: Faculdade
 
       - name: Verify JAR generation
@@ -41,6 +42,7 @@ jobs:
         with:
           name: app-jar
           path: Faculdade/target/*.jar
+
 
   docker-build-push:
     needs: build
