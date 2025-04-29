@@ -15,115 +15,56 @@
 
     <properties>
         <java.version>21</java.version>
-        <spring.boot.version>3.2.3</spring.boot.version>
+        <spring-boot.version>3.2.3</spring-boot.version>
         <cucumber.version>7.11.0</cucumber.version>
     </properties>
 
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.2.3</version>
+        <version>${spring-boot.version}</version>
         <relativePath/>
     </parent>
 
     <dependencies>
-        <!-- Spring Web e JPA -->
+        <!-- Spring Boot Web para API REST -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
 
+        <!-- Spring Boot Data JPA -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-jpa</artifactId>
         </dependency>
 
-        <!-- Dependência de Jakarta Persistence (para JPA no Spring Boot 3.x) -->
-         <dependency>
-             <groupId>jakarta.persistence</groupId>
-             <artifactId>jakarta.persistence-api</artifactId>
-             <version>3.1.0</version> <!-- Ou a versão mais recente compatível -->
-         </dependency>
-
-        <!-- H2 Database -->
+        <!-- Driver do banco de dados H2 -->
         <dependency>
             <groupId>com.h2database</groupId>
             <artifactId>h2</artifactId>
             <scope>runtime</scope>
         </dependency>
 
-        <!-- Validação -->
-         <dependency>
-             <groupId>org.hibernate.validator</groupId>
-             <artifactId>hibernate-validator</artifactId>
-             <version>8.0.1.Final</version>
-         </dependency>
-         
-         <dependency>
-             <groupId>org.glassfish</groupId>
-             <artifactId>jakarta.el</artifactId>
-             <version>4.0.2</version>
-         </dependency>
+        <!-- Jakarta Validation e Hibernate Validator -->
+        <dependency>
+            <groupId>org.hibernate.validator</groupId>
+            <artifactId>hibernate-validator</artifactId>
+            <version>8.0.1.Final</version>
+        </dependency>
 
-        <!-- Testes com Spring -->
+        <dependency>
+            <groupId>org.glassfish</groupId>
+            <artifactId>jakarta.el</artifactId>
+            <version>4.0.2</version>
+        </dependency>
+
+        <!-- Testes unitários com Spring Boot -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
             <exclusions>
                 <exclusion>
-                    <groupId>org.junit.vintage</groupId>
-                    <artifactId>junit-vintage-engine</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
+                    <groupId>org.junit.vintage</groupId
 
-        <!-- Cucumber com JUnit -->
-        <dependency>
-            <groupId>io.cucumber</groupId>
-            <artifactId>cucumber-java</artifactId>
-            <version>${cucumber.version}</version>
-            <scope>test</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>io.cucumber</groupId>
-            <artifactId>cucumber-spring</artifactId>
-            <version>${cucumber.version}</version>
-            <scope>test</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>io.cucumber</groupId>
-            <artifactId>cucumber-junit</artifactId>
-            <version>${cucumber.version}</version>
-            <scope>test</scope>
-        </dependency>
-
-        <!-- REST Assured para testes de API -->
-        <dependency>
-            <groupId>io.rest-assured</groupId>
-            <artifactId>rest-assured</artifactId>
-            <version>5.3.1</version>
-            <scope>test</scope>
-        </dependency>
-
-        <!-- Validação de JSON com JSON Schema -->
-        <dependency>
-            <groupId>com.github.fge</groupId>
-            <artifactId>json-schema-validator</artifactId>
-            <version>2.2.6</version>
-            <scope>test</scope>
-        </dependency>
-    </dependencies>
-
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
-                <version>${spring.boot.version}</version>
-            </plugin>
-        </plugins>
-    </build>
-</project>
