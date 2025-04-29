@@ -1,9 +1,9 @@
 package com.example.faculdade.models;
 
-import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
+import jakarta.persistence.Entity;  
+import jakarta.persistence.Id;     
+import jakarta.persistence.GeneratedValue;  
+import jakarta.persistence.GenerationType;
 
 @Entity
 public class TrafficIncident {
