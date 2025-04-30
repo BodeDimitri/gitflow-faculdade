@@ -2,21 +2,11 @@
   "$schema": "http://json-schema.org/draft-07/schema#",
   "type": "object",
   "properties": {
-    "id": {
-      "type": "integer"
-    },
-    "description": {
-      "type": "string"
-    },
-    "location": {
-      "type": "string"
-    },
-    "incidentType": {
-      "type": "string"
-    },
-    "severity": {
-      "type": "integer"
-    }
+    "id": { "type": "integer" },
+    "incidentType": { "type": "string" },
+    "severity": { "type": "integer" },
+    "description": { "type": "string" },
+    "location": { "type": "string" }
   },
-  "required": ["id", "description", "location", "incidentType", "severity"]
+  "required": ["id", "incidentType", "severity", "description", "location"]
 }
