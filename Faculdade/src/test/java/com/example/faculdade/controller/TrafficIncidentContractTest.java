@@ -7,7 +7,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
 import com.example.faculdade.repository.TrafficIncidentRepository;
 import com.example.faculdade.models.TrafficIncident;
-  
+
 import java.util.Optional;
 
 import static io.restassured.module.mockmvc.RestAssuredMockMvc.*;
