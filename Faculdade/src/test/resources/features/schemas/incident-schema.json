@@ -1,0 +1,25 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "title": "TrafficIncident",
+    "type": "object",
+    "required": ["id", "incidentType", "severity", "description", "location"],
+    "properties": {
+      "id": {
+        "type": "integer"
+      },
+      "incidentType": {
+        "type": "string"
+      },
+      "severity": {
+        "type": "integer"
+      },
+      "description": {
+        "type": "string"
+      },
+      "location": {
+        "type": "string"
+      }
+    },
+    "additionalProperties": false
+  }
+  
