@@ -7,7 +7,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
 import com.example.faculdade.repository.TrafficIncidentRepository;
 import com.example.faculdade.models.TrafficIncident;
-
+  
 import java.util.Optional;
 
 import static io.restassured.module.mockmvc.RestAssuredMockMvc.*;
@@ -40,6 +40,6 @@ public class TrafficIncidentContractTest {
             .get("/traffic-incidents/1")
         .then()
             .statusCode(200)
-            .body(matchesJsonSchemaInClasspath("schemas/incident-schema.json"));
+            .body(matchesJsonSchemaInClasspath("/schemas/incident-schema.json"));
     }
 }
