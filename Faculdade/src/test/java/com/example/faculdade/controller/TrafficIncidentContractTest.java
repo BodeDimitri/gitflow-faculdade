@@ -40,6 +40,7 @@ public class TrafficIncidentContractTest {
             .get("/traffic-incidents/1")
         .then()
             .statusCode(200)
-            .body(matchesJsonSchemaInClasspath("/schemas/incident-schema.json"));
+            .body(matchesJsonSchemaInClasspath("schemas/incident-schema.json")); 
     }
+
 }
