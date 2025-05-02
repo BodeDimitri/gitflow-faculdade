@@ -105,6 +105,13 @@
         </dependency>
     </dependencies>
 
+    <repositories>
+        <repository>
+            <id>masterthought-repo</id>
+            <url>https://repository.masterthought.net/repository/maven-cucumber-reporting/</url>
+        </repository>
+    </repositories>
+
     <build>
         <plugins>
             <!-- Compilador Java -->
@@ -122,7 +129,7 @@
             <plugin>
                 <groupId>net.masterthought</groupId>
                 <artifactId>maven-cucumber-reporting</artifactId>
-                <version>5.7.2</version> <!-- Atualização da versão do plugin -->
+                <version>5.7.1</version> <!-- Alterado para uma versão mais antiga -->
                 <executions>
                     <execution>
                         <id>generate-cucumber-html-report</id>
