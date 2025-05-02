@@ -118,10 +118,11 @@
                 </configuration>
             </plugin>
 
+            <!-- Plugin para gerar relatório HTML do Cucumber -->
             <plugin>
                 <groupId>net.masterthought</groupId>
                 <artifactId>maven-cucumber-reporting</artifactId>
-                <version>5.7.2</version> <!-- Update the version here -->
+                <version>5.7.2</version> <!-- Atualização da versão do plugin -->
                 <executions>
                     <execution>
                         <id>generate-cucumber-html-report</id>
@@ -139,5 +140,6 @@
                     </execution>
                 </executions>
             </plugin>
+        </plugins>
     </build>
 </project>
