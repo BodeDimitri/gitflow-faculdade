@@ -23,7 +23,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Set up JDK
+      - name: Set up JDK 21 with Temurin
         uses: actions/setup-java@v4
         with:
           java-version: "21"
@@ -33,6 +33,9 @@ jobs:
       - name: Build and Run Tests (Cucumber, API)
         run: mvn clean verify
         working-directory: Faculdade
+
+      - name: List files in target
+        run: ls -al Faculdade/target  # Adicionando depuração para verificar arquivos
 
       - name: Upload JAR artifact
         uses: actions/upload-artifact@v4
@@ -45,6 +48,7 @@ jobs:
         with:
           name: cucumber-report
           path: Faculdade/target/cucumber-report.json
+
 
 
   docker-build-push:
