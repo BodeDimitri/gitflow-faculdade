@@ -34,14 +34,17 @@ jobs:
         run: mvn clean verify
         working-directory: Faculdade
 
-      - name: Verify JAR generation
-        run: ls -lh Faculdade/target
-
       - name: Upload JAR artifact
         uses: actions/upload-artifact@v4
         with:
           name: app-jar
           path: Faculdade/target/*.jar
+
+      - name: Upload Cucumber Report JSON
+        uses: actions/upload-artifact@v4
+        with:
+          name: cucumber-report
+          path: Faculdade/target/cucumber-report.json
 
 
   docker-build-push:
