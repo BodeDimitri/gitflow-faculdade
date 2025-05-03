@@ -22,39 +22,40 @@
 
     <dependencies>
 
-    <dependency>
-        <groupId>io.cucumber</groupId>
-        <artifactId>cucumber-java</artifactId>
-        <version>7.10.0</version> <!-- Verifique se a versão está compatível com sua configuração -->
-    </dependency>
+        <!-- Dependências do Cucumber -->
+        <dependency>
+            <groupId>io.cucumber</groupId>
+            <artifactId>cucumber-java</artifactId>
+            <version>7.10.0</version>
+        </dependency>
 
-    <dependency>
-        <groupId>io.cucumber</groupId>
-        <artifactId>cucumber-spring</artifactId>
-        <version>7.10.0</version>
-    </dependency>
+        <dependency>
+            <groupId>io.cucumber</groupId>
+            <artifactId>cucumber-spring</artifactId>
+            <version>7.10.0</version>
+        </dependency>
 
-    <!-- Dependências do Cucumber para JUnit -->
-    <dependency>
-        <groupId>io.cucumber</groupId>
-        <artifactId>cucumber-junit</artifactId>
-        <version>7.10.0</version>
-    </dependency>
+        <!-- Dependência do Cucumber para JUnit -->
+        <dependency>
+            <groupId>io.cucumber</groupId>
+            <artifactId>cucumber-junit</artifactId>
+            <version>7.10.0</version>
+        </dependency>
 
-    <!-- Dependência do JUnit -->
-    <dependency>
-        <groupId>org.junit.jupiter</groupId>
-        <artifactId>junit-jupiter-api</artifactId>
-        <version>5.10.2</version>
-        <scope>test</scope>
-    </dependency>
+        <!-- Dependências do JUnit para testes -->
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-api</artifactId>
+            <version>5.10.2</version>
+            <scope>test</scope>
+        </dependency>
 
-    <dependency>
-        <groupId>org.junit.jupiter</groupId>
-        <artifactId>junit-jupiter-engine</artifactId>
-        <version>5.10.2</version>
-        <scope>test</scope>
-    </dependency>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-engine</artifactId>
+            <version>5.10.2</version>
+            <scope>test</scope>
+        </dependency>
 
         <!-- Spring Web -->
         <dependency>
@@ -115,7 +116,7 @@
             <version>5.4.0</version>
             <scope>test</scope>
         </dependency>
-        
+
     </dependencies>
 
     <build>
