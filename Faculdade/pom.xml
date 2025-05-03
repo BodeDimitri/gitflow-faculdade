@@ -25,7 +25,7 @@
         <dependency>
             <groupId>io.cucumber</groupId>
             <artifactId>cucumber-java</artifactId>
-            <version>7.10.0</version> <!-- Verifique se a versão está compatível com sua configuração -->
+            <version>7.10.0</version>
         </dependency>
 
         <dependency>
@@ -146,6 +146,34 @@
                     <target>17</target>
                 </configuration>
             </plugin>
+
+            <!-- Plugin para rodar os testes Cucumber -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-failsafe-plugin</artifactId>
+                <version>3.1.0</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>integration-test</goal>
+                            <goal>verify</goal>
+                        </goals>
+                        <configuration>
+                            <includes>
+                                <include>**/*Test.java</include>
+                            </includes>
+                            <systemProperties>
+                                <property>
+                                    <name>cucumber.options</name>
+                                    <value>--plugin json:target/cucumber-report.json</value>
+                                </property>
+                            </systemProperties>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
         </plugins>
     </build>
+
 </project>
