@@ -60,6 +60,9 @@ jobs:
           name: app-jar
           path: Faculdade/target/*.jar
 
+      - name: List target folder
+        run: ls -R Faculdade/target
+
       - name: Upload Cucumber Report JSON
         uses: actions/upload-artifact@v4
         with:
