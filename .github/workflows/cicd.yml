@@ -15,10 +15,12 @@ env:
   IMAGE_NAME: bodedimitri/my-java-app
   AZURE_WEBAPP_NAME_STAGING: web-app-stagging
   AZURE_WEBAPP_NAME_PRODUCTION: web-app-prod
-  
+
 jobs:
   build:
     runs-on: ubuntu-latest
+    outputs:
+      build-dir: ${{ steps.export-dir.outputs.build-dir }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -30,12 +32,27 @@ jobs:
           distribution: "temurin"
           cache: maven
 
-      - name: Build and Run Tests (Cucumber, API)
-        run: mvn clean verify
+      - name: Build project
+        run: mvn clean package -DskipTests
         working-directory: Faculdade
 
-#      - name: List files in target
-#        run: ls -al Faculdade/target  
+  tests:
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 21 with Temurin
+        uses: actions/setup-java@v4
+        with:
+          java-version: "21"
+          distribution: "temurin"
+          cache: maven
+
+      - name: Run Tests (Cucumber, API)
+        run: mvn verify
+        working-directory: Faculdade
 
       - name: Upload JAR artifact
         uses: actions/upload-artifact@v4
@@ -47,10 +64,10 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: cucumber-report
-          path: Faculdade/src/test/resources/target/cucumber-report.json
+          path: Faculdade/target/cucumber-report.json
 
   docker-build-push:
-    needs: build
+    needs: tests
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -61,7 +78,7 @@ jobs:
         with:
           name: app-jar
           path: target/
-          
+
       - name: List downloaded artifact
         run: ls -lh target/
 
@@ -70,13 +87,13 @@ jobs:
 
       - name: Build and Push Docker image
         run: |
-          # Extract the JAR filename.  Crucial for robustness.
           JAR_FILE=$(find target/ -name "*.jar" -printf "%f\n")
           TAG=$(echo $GITHUB_SHA | cut -c1-7)
-          docker build -t $REGISTRY/$IMAGE_NAME:$TAG -f Dockerfile . # Corrected Dockerfile path
+          docker build -t $REGISTRY/$IMAGE_NAME:$TAG -f Dockerfile .
           docker push $REGISTRY/$IMAGE_NAME:$TAG
           docker tag $REGISTRY/$IMAGE_NAME:$TAG $REGISTRY/$IMAGE_NAME:latest
           docker push $REGISTRY/$IMAGE_NAME:latest
+
   deploy-staging:
     runs-on: ubuntu-latest
     needs: docker-build-push
