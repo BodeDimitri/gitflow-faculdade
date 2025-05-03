@@ -34,9 +34,12 @@ jobs:
         run: mvn clean verify
         working-directory: Faculdade
 
-      - name: List files in target
-        run: ls -al Faculdade/target  # Adicionando depuração para verificar arquivos
+      #- name: List files in target
+        #run: ls -al Faculdade/target  
 
+  tests:
+    runs-on: ubuntu-latest
+    steps:
       - name: Upload JAR artifact
         uses: actions/upload-artifact@v4
         with:
