@@ -1,0 +1,42 @@
+[
+    {
+      "uri": "features/example.feature",
+      "elements": [
+        {
+          "name": "Example scenario",
+          "keyword": "Scenario",
+          "steps": [
+            {
+              "name": "Given a precondition",
+              "keyword": "Given ",
+              "result": {
+                "status": "passed",
+                "duration": 1000000
+              }
+            },
+            {
+              "name": "When an action is performed",
+              "keyword": "When ",
+              "result": {
+                "status": "passed",
+                "duration": 2000000
+              }
+            },
+            {
+              "name": "Then a result should occur",
+              "keyword": "Then ",
+              "result": {
+                "status": "passed",
+                "duration": 1500000
+              }
+            }
+          ]
+        }
+      ],
+      "id": "example-scenario",
+      "keyword": "Feature",
+      "name": "Example feature",
+      "line": 1
+    }
+  ]
+  
